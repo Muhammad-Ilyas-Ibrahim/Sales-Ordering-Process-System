@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        .order-details {
+            margin-bottom: 30px;
+        }
+
+        .order-details p {
+            margin: 10px 0;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .qr-code img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Order Confirmation</h2>
+        <div class="order-details">
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Client ID:</strong> {{ order.client_id }}</p>
+            <p><strong>Delivery Address:</strong> {{ client.address }}</p>
+            <p><strong>Delivery Time:</strong> {{ order.delivery_time }}</p>
+            <p><strong>Priority Status:</strong> {{ order.priority_status }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+        </div>
+        <div class="qr-code">
+            <img src="{{ order.qr_code_path }}" alt="QR Code">
+        </div>
+        <div class="button-container">
+            <button onclick="confirmOrder('{{ order.id }}')">Confirm Order</button>
+            <button onclick="window.print()">Print Confirmation</button>
+            <button onclick="cancelOrder('{{ order.id }}')">Cancel Order</button>
+        </div>
+    </div>
+</body>
+
+<script>
+
+   function confirmOrder(orderId) {
+        fetch(`/confirm_order/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                alert('Order confirmed successfully.');
+                window.location.href = '/orders';
+            } else {
+                alert('Failed to confirm order.');
+            }
+        }).catch(error => {
+            console.error('Error confirming order:', error);
+            alert('Failed to confirm order.');
+        });
+    }
+   function cancelOrder(orderId) {
+        fetch(`/cancel_order/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                alert('Order Cancelled!');
+                window.location.href = '/orders';
+            } else {
+                alert('Failed to confirm order.');
+            }
+        }).catch(error => {
+            console.error('Error confirming order:', error);
+            alert('Failed to confirm order.');
+        });
+    }
+</script>
+
+</html>

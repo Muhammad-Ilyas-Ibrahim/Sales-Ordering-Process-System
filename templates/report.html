@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reports - Sales Ordering Process System</title>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      section {
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      select {
+        font-size: 18px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      button {
+        font-size: 18px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #report-content {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+
+      img {
+        width: 80%;
+        height: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Reports</h1>
+      <button class="dashboard" onclick="dashboard()">Dashboard</button>
+    </header>
+    <main>
+      <section id="report-section">
+        <h2>Generate Reports</h2>
+        <form id="generate-report-form" method="POST" action="/generate_report">
+          <label for="report-type">Select Report Type:</label>
+          <select id="report-type" name="report_type" required>
+            <option value="client-details">Client Details</option>
+            <option value="product-details">Product Details</option>
+            <option value="stock-details">Stock Details</option>
+            <option value="order-details">Order Details</option>
+            <option value="payment-details">Payment Details</option>
+          </select>
+          <button type="submit">Generate Report</button>
+        </form>
+      </section>
+
+      <!-- Statistics -->
+      <section id="stats-section">
+        <h2>View Statistics</h2>
+        <form id="generate-stats-form" method="POST" action="/view_statistics">
+          <label for="stats-type">Select Statistics Type:</label>
+          <select id="stats-type" name="stats_type" required>
+            <option value="order_graph">Order Graph</option>
+            <option value="product_graph">Product Graph</option>
+            <option value="stock_graph">Stock Graph</option>
+          </select>
+          <button type="submit">Generate Graph</button>
+        </form>
+      </section>
+
+      <!-- Image will be displayed here -->
+
+      {% if image_url %}
+      <center>
+        <section id="statistics">
+          <h2>Graph</h2>
+          <br>
+          <img src="{{image_url}}" alt="Unable to load image" />
+        </section>
+      </center>
+      {% endif %}
+    </main>
+  </body>
+  <script></script>
+</html>

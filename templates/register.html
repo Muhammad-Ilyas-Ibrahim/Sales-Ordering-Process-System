@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register - Sales Ordering Process System</title>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script src="../static/script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #register-section {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="username"], 
+        input[type="password"] {
+            font-size: 16px;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 3%;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        button[type="submit"].disabled {
+            opacity: 0.5; 
+        }
+
+        p {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Register for Sales Ordering Process System</h1>
+    </header>
+    <main>
+        <section id="register-section">
+            <h2>Register</h2>
+            <form id="register-form" method="POST" action="/register">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first_name" required>
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last_name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span id="password-match" style="color: red;"> {{ error1 }} </span>
+                <label for="username">Username:</label>
+                <input type="username" id="username" name="username" required>
+                <span id="username-exist" style="color: red;"> {{ error2 }} </span>
+                <label for="new-password">Choose Password:</label>
+                <input type="password" id="new-password" name="password" required>
+                <span id="password-strength" style="color: red;"> {{ error3 }} </span>
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm_password" required>
+                <span id="password-match" style="color: red;"> {{ error4 }} </span>
+                
+                <!-- Add reCAPTCHA -->
+                <div class="g-recaptcha" data-sitekey="6LcOVHUpAAAAADmawJNU3c37SLgrsDWmKcK7v_ij"></div>
+                <span id="recapthcha-failed" style="color: red;"> {{ error5 }} </span>
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="/login">Login here</a>.</p>
+        </section>
+    </main>
+
+</body>
+
+</html>

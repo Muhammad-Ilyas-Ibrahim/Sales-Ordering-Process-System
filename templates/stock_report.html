@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Report</title>
+    <style>
+        /* Define CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Stock Report</h1>
+    </center>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stock_details %}
+            <tr>
+                <td>{{ stock.id }}</td>
+                <td>{{ stock.product_id }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td>{{ stock.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

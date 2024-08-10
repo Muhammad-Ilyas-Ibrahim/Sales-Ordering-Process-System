@@ -1,0 +1,7 @@
+flask
+bcrypt
+requests
+Flask-SQLAlchemy
+qrcode
+pdfkit
+matplotlib

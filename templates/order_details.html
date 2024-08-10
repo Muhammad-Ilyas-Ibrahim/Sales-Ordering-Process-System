@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e2e2e2;
+        }
+
+        form button[type="submit"],
+        .delete-button,
+        .edit-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        form button[type="submit"]:hover,
+        .delete-button:hover,
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Order Details</h1>
+    </header>
+    <main>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Client ID</th>
+                        <th>Product ID</th>
+                        <th>Quantity</th>
+                        <th>Address</th>
+                        <th>Delivery Time</th>
+                        <th>Priority Status</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.client_id }}</td>
+                        <td>{{ order.product_id }}</td>
+                        <td>{{ order.product_quantity }}</td>
+                        <td>{{ order.client_address }}</td>
+                        <td>{{ order.delivery_time }}</td>
+                        <td>{{ order.priority_status }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <form action="{{ url_for('edit_order', order_id=order.id) }}" method="GET">
+                                <button type="submit" class="edit-button">Edit</button>
+                            </form>
+                            <form id="delete-form-{{ order.id }}"
+                                action="{{ url_for('delete_order', order_id=order.id) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="button" class="delete-button"
+                                    onclick="confirmDelete('{{ order.id }}')">Delete</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+<script>
+    function confirmDelete(order_id) {
+        if (confirm(`Are you sure you want to delete order with id: ${order_id}?`)) {
+            document.getElementById(`delete-form-${order_id}`).submit();
+        }
+    }
+</script>
+
+</html>

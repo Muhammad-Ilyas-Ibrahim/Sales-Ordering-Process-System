@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Sales Ordering Process System</title>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="date"],
+        form input[type="datetime-local"],
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form button[type="submit"],
+        .delete-button,
+        .edit-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-block;
+        }
+
+        form button[type="submit"]:hover,
+        .delete-button:hover,
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button,
+        .edit-button {
+            width: 65px;
+            margin-left: 5%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e2e2e2;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-container button[type="submit"] {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-container button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Orders</h1>
+        <button class="dashboard" onclick="dashboard()">Dashboard</button>
+    </header>
+
+    <!-- Flash message -->
+    {% with message = get_flashed_messages(with_categories=True) %}
+    {% if message %}
+    <center>
+        <div class="alert alert-{{ message[0][0] }} flash-message" role="alert"> {{ message[0][1] }}
+            <button type="button" class="close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </center>
+    {% endif %}
+    {% endwith %}
+
+    <main>
+        <section id="order-section">
+            <h2>Create New Order</h2>
+            <form id="create-order-form" method="POST" action="/create_order">
+                <label for="client-id">Client ID:</label>
+                <input type="text" id="client-id" name="client_id" required>
+                <label for="product-id">Product ID:</label>
+                <input type="text" id="product-id" name="product_id_or_name" required>
+                <label for="quantity">Quantity</label>
+                <input type="text" id="quantity" name="quantity" required>
+                <label for="order-date">Order Date:</label>
+                <input type="datetime-local" id="order-date" name="order_date" required>
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority">
+                    <option value="Normal">Normal</option>
+                    <option value="High">High</option>
+                </select>
+                <button type="submit">Create Order</button>
+            </form>
+        </section>
+
+        <section id="order-edit-delete-section">
+            <h2>Edit or Delete any Order</h2>
+            <form id="search-order-form" method="POST" action="/search_order">
+                <div class="search-container">
+                    <center>
+                        <button type="submit">Edit</button>
+                        <button type="submit">Delete</button>
+                    </center>
+                </div>
+            </form>
+
+        </section>
+    </main>
+</body>
+
+</html>

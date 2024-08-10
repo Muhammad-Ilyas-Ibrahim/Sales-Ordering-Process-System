@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Management - Sales Ordering Process System</title>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e2e2e2;
+        }
+
+        /* New styling */
+        .search-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .search-label {
+            font-weight: bold;
+        }
+
+        .search-input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search-button {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Delivery Management</h1>
+        <button class="dashboard" onclick="dashboard()">Dashboard</button>
+    </header>
+    <main>
+        <section id="delivery-section">
+            <h2>Confirmed Deliveries</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Delivery ID</th>
+                        <th>Order ID</th>
+                        <th>Client ID</th>
+                        <th>Delivery Address</th>
+                        <th>Delivery Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for delivery in deliveries %}
+                    <tr>
+                        <td>{{ delivery.id }}</td>
+                        <td>{{ delivery.order_id }}</td>
+                        <td>{{ delivery.client_id }}</td>
+                        <td>{{ delivery.delivery_address }}</td>
+                        <td>{{ delivery.delivery_date }}</td>
+                        <td>{{ delivery.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- New search container -->
+            <div class="search-container">
+                <label for="delivery-id" class="search-label">Enter Delivery ID:</label>
+                <input type="text" id="delivery-id" name="delivery-id" class="search-input">
+                <button onclick="searchDelivery()" class="search-button">Search</button>
+            </div>
+            <button onclick="showPriorityList()" class="search-button">Show Priority List</button>
+        </section>
+    </main>
+
+<script>
+
+function showPriorityList() {
+            fetch(`/prioritize_deliveries`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        // Display the prioritized deliveries
+                        var deliverySection = document.getElementById("delivery-section");
+                        deliverySection.innerHTML = ""; // Clear previous content
+                        deliverySection.innerHTML += `
+                            <h2>Prioritized Deliveries</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Delivery ID</th>
+                                        <th>Order ID</th>
+                                        <th>Client ID</th>
+                                        <th>Delivery Address</th>
+                                        <th>Delivery Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.prioritized_deliveries.map(delivery => `
+                                        <tr>
+                                            <td>${delivery.id}</td>
+                                            <td>${delivery.order_id}</td>
+                                            <td>${delivery.client_id}</td>
+                                            <td>${delivery.delivery_address}</td>
+                                            <td>${delivery.delivery_date}</td>
+                                            <td>${delivery.status}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+
+        
+    function searchDelivery() {
+        var deliveryId = document.getElementById("delivery-id").value;
+
+        // Call backend API to search delivery by ID
+        fetch(`/search_delivery?delivery_id=${deliveryId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    // Display the searched delivery information
+                    var deliveryStatusSection = document.getElementById("delivery-status");
+                    deliveryStatusSection.innerHTML = ""; // Clear previous content
+                    deliveryStatusSection.innerHTML += `
+                        <h2>Delivery Status</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Delivery ID</th>
+                                    <th>Order ID</th>
+                                    <th>Client ID</th>
+                                    <th>Delivery Address</th>
+                                    <th>Delivery Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${data.id}</td>
+                                    <td>${data.order_id}</td>
+                                    <td>${data.client_id}</td>
+                                    <td>${data.delivery_address}</td>
+                                    <td>${data.delivery_date}</td>
+                                    <td>${data.status}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+<section id="delivery-status"></section>
+
+</body>
+
+</html>

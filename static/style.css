@@ -1,0 +1,69 @@
+.flash-message-container {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 300px;
+}
+
+.flash-message {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.flash-message .close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.flash-message .close-button:hover {
+    color: #f00;
+}
+
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-left: 47%;
+    margin-right: auto;
+}
+
+.dashboard {
+    font-size: 18px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.dashboard:hover {
+    background-color: #c82333;
+}
+
+.logout {
+    float: right;
+    margin-right: 2%;
+    font-size: 18px;
+}

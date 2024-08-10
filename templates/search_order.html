@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Order</title>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+      
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-container button[type="submit"] {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-container button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Search any Order</h1>
+    </header>
+    <!-- Flash message -->
+    {% with message = get_flashed_messages(with_categories=True) %}
+    {% if message %}
+    <center>
+        <div class="alert alert-{{ message[0][0] }} flash-message" role="alert"> {{ message[0][1] }}
+            <button type="button" class="close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </center>
+    {% endif %}
+    {% endwith %}
+    <main>
+        <section id="order-search-section">
+            <div class="search-container">
+                <form id="search-order-form" method="POST" action="/order_details">
+                    <input type="text" placeholder="Search by order ID" name="search">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+        </section>
+    </main>
+</body>
+
+</html>

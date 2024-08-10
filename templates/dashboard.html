@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sales Ordering Process System</title>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        header button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        header button:hover {
+            background-color: #c82333;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        #menu-section {
+            flex-basis: 20%;
+        }
+
+        #menu-section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #menu-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #menu-section ul li {
+            margin-bottom: 10px;
+        }
+
+        #menu-section ul li a {
+            display: block;
+            padding: 10px;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+
+        #menu-section ul li a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        #content-section {
+            flex-basis: 75%;
+        }
+
+        #content-section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        #content-section p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1> Welcome {{username}} to Sales Mangement System</h1>
+        <button class="logout" onclick="logout()">Logout</button>
+    </header>
+    <!-- Flash message -->
+    <div class="flash-message-container">
+        {% with message = get_flashed_messages(with_categories=True) %}
+        {% if message %}
+        <div class="flash-message alert-{{ message[0][0] }}" role="alert"> {{ message[0][1] }}
+            <button type="button" class="close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <main>
+        <section id="menu-section">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/clients">Clients</a></li>
+                <li><a href="/stock">Stock</a></li>
+                <li><a href="/orders">Orders</a></li>
+                <li><a href="/delivery">Delivery</a></li>
+                <li><a href="/invoices">Invoices</a></li>
+                <li><a href="/reports">Reports</a></li>
+            </ul>
+        </section>
+        <section id="content-section">
+            <h2>Welcome to the Dashboard!</h2>
+            <p>This is the dashboard of the Sales Ordering Process System. You can navigate through
+                different menus
+                using the links provided on the left.</p>
+        </section>
+    </main>
+
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('client-table').style.display = 'table';
+    });
+
+</script>
+
+</html>

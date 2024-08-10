@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock - Sales Ordering Process System</title>
+    <script type="text/javascript" src="../static/script.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="date"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form button[type="submit"],
+        .delete-button,
+        .edit-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-block;
+        }
+
+        form button[type="submit"]:hover,
+        .delete-button:hover,
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #e2e2e2;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-container button[type="submit"] {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-container button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .flash-message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .flash-message {
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .flash-message.alert-success {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        .flash-message.alert-error {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .flash-message .close-button {
+            background-color: transparent;
+            border: none;
+            color: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Stock</h1>
+        <button class="dashboard" onclick="dashboard()">Dashboard</button>
+    </header>
+
+    <!-- Flash message -->
+    <div class="flash-message-container">
+        {% with message = get_flashed_messages(with_categories=True) %}
+        {% if message %}
+        <div class="flash-message alert-{{ message[0][0] }}" role="alert"> {{ message[0][1] }}
+            <button type="button" class="close-button" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <main>
+        <section id="add-stock-section">
+            <h2>Add New Stock</h2>
+            <form id="add-stock-form" method="POST" action="/add_stock">
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" name="product_name" required>
+                <label for="product-id">Product ID:</label>
+                <input type="text" id="product-id" name="product_id" required>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required>
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+
+                <button type="submit">Add Stock</button>
+            </form>
+        </section>
+        <section id="low-stock-list-section">
+            <h2>Low Stock</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product, quantity in low_stock_products %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ quantity }}</td>
+                        <td>{{ product.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+
+        <section id="stock-list-section">
+            <h2>View Stock</h2>
+            <div class="search-container">
+                <form id="search-stock-form" action="/search_stock" method="GET">
+                    <input type="text" name="query" placeholder="Search by product ID or name...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if all_stock_data %}
+                    {% for product, stock in all_stock_data %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ stock.quantity }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>
+                            <form action="{{ url_for('edit_stock', product_id=product.id) }}" method="GET">
+                                <button type="submit" class="edit-button">Edit</button>
+                            </form>
+                            <form id="delete-form-{{ product.id }}" action="/delete_stock/{{ product.id }}"
+                                method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="button" class="delete-button"
+                                    onclick="confirmDelete('{{ product.name }}', '{{ product.id }}')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if searched_product %}
+                    <tr>
+                        <td>{{ searched_product.id }}</td>
+                        <td>{{ searched_product.name }}</td>
+                        <td>{{ searched_stock.quantity if searched_stock else 'N/A' }}</td>
+                        <td>{{ searched_product.price }}</td>
+                        <td>
+                            <form action="{{ url_for('edit_stock', product_id=searched_product.id) }}" method="GET">
+                                <button type="submit" class="edit-button">Edit</button>
+                            </form>
+                            <form id="delete-form-{{ searched_product.id }}" action="/delete_stock/{{ searched_product.id }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="button" class="delete-button"
+                                    onclick="confirmDelete('{{ searched_product.name }}', '{{ searched_product.id }}')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+
+            </table>
+        </section>
+
+    </main>
+
+    <script>
+        function confirmDelete(productName, productId) {
+            if (confirm(`Are you sure you want to delete stock for ${productName}?`)) {
+                document.getElementById(`delete-form-${productId}`).submit();
+            }
+        }
+
+        // document.getElementById('search-stock-form').addEventListener('submit', function (event) {
+        //     event.preventDefault(); // Prevent the default form submission behavior
+        //     const query = document.querySelector('input[name="query"]').value; // Get the search query
+        //     searchStock(query); // Call the searchStock function with the query
+        // });
+
+        // // Function to perform AJAX request to search_stock route
+        // function searchStock(query) {
+        //     fetch(`/search_stock?query=${query}`)
+        //         .then(response => response.text())
+        //         .then(data => {
+        //             replaceStockListSectionWithSearched(data);
+        //         })
+        //         .catch(error => console.error('Error:', error));
+        // }
+
+        // // JavaScript code to dynamically replace the content of the stock-list-section
+        // function replaceStockListSectionWithSearched(content) {
+        //     const stockListSection = document.getElementById('stock-list-section');
+        //     stockListSection.innerHTML = content;
+        // }
+
+    </script>
+</body>
+
+</html>

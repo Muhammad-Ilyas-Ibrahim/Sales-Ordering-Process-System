@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .invoice {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice">
+        <div class="invoice-header">
+            <h2>Invoice</h2>
+        </div>
+        <div class="invoice-details">
+            <p><strong>Client Name:</strong> {{ client.name }}</p>
+            <p><strong>Client Email:</strong> {{ client.email }}</p>
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+            <!-- Add more order details here -->
+        </div>
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <!-- Add more table headers if needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ order.product_id }}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.product_quantity }}</td>
+                    <td>{{ order.product.price }}</td>
+                    <!-- Add more rows if there are multiple products in the order -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

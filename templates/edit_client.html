@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 50%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="edit-client-form" method="POST" action="/edit_client/{{ client.id }}">
+        <label for="client-name">Name:</label>
+        <input type="text" id="client-name" name="client_name" value="{{ client.name }}" required>
+        <label for="client-address">Address:</label>
+        <input type="text" id="client-address" name="client_address" value="{{ client.address }}" required>
+        <label for="client-phone">Phone:</label>
+        <input type="text" id="client-phone" name="client_phone" value="{{ client.phone }}" required>
+        <label for="client-email">Email:</label>
+        <input type="email" id="client-email" name="client_email" value="{{ client.email }}" required>
+        <button type="submit">Update Client</button>
+    </form>
+</body>
+
+</html>
