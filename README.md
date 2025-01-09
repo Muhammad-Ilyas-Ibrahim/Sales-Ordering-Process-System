@@ -52,11 +52,11 @@ The Sales Ordering Process System is a web-based application designed to streaml
 
 ### 1. **Google reCaptcha Setup**
    - To enable Google reCaptcha, you need to obtain a secret key from the Google reCaptcha admin console.
-   - **How to Get the Secret Key**: [Watch this video on YouTube](#) to learn how to get your secret key for Google reCaptcha.
+   - **How to Get the Secret Key**: [Watch this video on YouTube](#) (will be available soon) to learn how to get your secret key for Google reCaptcha.
 
 ### 2. **Email Sending Feature Setup**
    - To enable the email-sending feature, you need to provide your email username and password in the configuration.
-   - **How to Get the Email Password**: [Watch this video on YouTube](#) to learn how to get the password for enabling email sending in the system.
+   - **How to Get the Email Password**: [Watch this video on YouTube](#) (will be available soon) to learn how to get the password for enabling email sending in the system.
 
 ## Technologies Used
 
